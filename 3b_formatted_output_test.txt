@@ -1,0 +1,10 @@
+import emotion_detector
+>>> print(emotion_detector.emotion_detector("I am so happy I'm doing this"))
+{
+'anger' : 0.003241327
+'disgust' : 0.00059845607
+'fear' : 0.009769739
+'joy' : 0.98400974
+'sadness' : 0.025415612
+'dominant_emotion' : 'joy'
+}
