@@ -5,39 +5,32 @@ from EmotionDetection.emotion_detector import emotion_detector
 
 app = Flask(__name__)
 
-@app.route
+@app.route("/")
 def index(): 
-    return "kvakk"
+    return render_template("index.html")
 
-def make_dict(string):
-    """Aux method for turning a str into a dict.
-
-    Params: 
-        string (str): the string to create a dict from.
-    """
-    return_dict = {}
-    for l in string.split("\n"):
-        maybe_line = l.split(":")
-        if len(maybe_line) > 1:
-            key, val = maybe_line[0].strip(), maybe_line[1].strip()
-            return_dict[key] = val
-    return return_dict
 
 @app.route("/emotionDetector")
 def emotion_detector_in_server():
     """Enpoint for getting sent an."""
     q = request.args.get('q')
+    
     e_str = emotion_detector(q)
-    s_dict = make_dict(e_str)
-    if len(q) > 0:
-        dominant_emotion = s_dict["'dominant_emotion'"][1: -1]
-        s_dict.pop("'dominant_emotion'", None)
-    else:
-        return "INVALID TEXT! Please try again"
-    return_str = "For the given statement, the system response is "
-    for k, v in s_dict.items():
-        return_str += k
-        return_str += v
-    return_str += "\nThe dominant emotion is "
-    return_str += "\033[1m" + dominant_emotion + "\033[0m" + ".\n"
-    return return_str, 200
+    if e_str["dominant_emotion"] is None: 
+        return "Invalid text! Please try again"
+
+    dominant_emotion = e_str["dominant_emotion"]
+
+    e_str.pop("dominant_emotion")
+
+    response_str = "For the given statement, the system response is"
+
+    keys = list(sorted(e_str.keys()))
+    for k, v in keys[:-1] 
+        response_str += f"{k} : {e_str[v]}"
+
+    response_str += (f" and {keys[-1]} : {e_str[keys[-1]]}.")
+    reponse_str += f"The dominant emotion is <b>{dominant_emotion}</b>."
+
+    return e_str
+  
