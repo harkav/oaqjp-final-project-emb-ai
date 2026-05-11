@@ -1,9 +1,13 @@
 """Webserver for sentanalysis"""
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from EmotionDetection.emotion_detector import emotion_detector
 
 app = Flask(__name__)
+
+@app.route
+def index(): 
+    return "kvakk"
 
 def make_dict(string):
     """Aux method for turning a str into a dict.

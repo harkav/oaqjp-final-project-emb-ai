@@ -2,8 +2,6 @@
 import requests
 import json 
 
-
-
 def emotion_detector(text_to_analyze: str): 
 
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
@@ -12,28 +10,20 @@ def emotion_detector(text_to_analyze: str):
     response = requests.post(url = url, headers = headers, json = input_json)
 
     text_dict = json.loads(response.text)
-    
-    emotions =  text_dict["emotionPredictions"][0]["emotion"]
+    return_dict = text_dict["emotionPredictions"][0]["emotion"]
 
     dominant_emotion = ""
-    dominant_emotion_score = 0 
+    dominant_emotion_score = 0
 
-    for k, v in emotions.items(): 
+    for k, v in return_dict.items(): 
         if v > dominant_emotion_score: 
-            dominant_emotion = k 
-            dominant_emotion_score = v 
-
-    return_str = "{\n"
-
-    for k, v in sorted(emotions.items()): 
-
-        return_str += f"'{k}' : {v}\n"
+            dominant_emotion = k
+            dominant_emotion_score = v
     
-    return_str += f"'dominant_emotion' : '{dominant_emotion}'\n"
-    return_str += "}"
+    return_dict[dominant_emotion] = dominant_emotion_score
+    return return_dict
 
-    
-    return return_str 
+# Is this right? Not sure if white space is significant in the desired output from the problemset. 
 
 
 
