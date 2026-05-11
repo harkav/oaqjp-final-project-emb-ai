@@ -20,11 +20,7 @@ def emotion_detector(text_to_analyze: str):
             dominant_emotion = k
             dominant_emotion_score = v
     
-    return_dict[dominant_emotion] = dominant_emotion_score
+    return_dict["dominant_emotion"] = dominant_emotion
 
     return return_dict
 
-# Is this right? Not sure if white space is significant in the desired output from the problemset. 
-
-
-print(emotion_detector("I hate working long hours"))
